@@ -131,7 +131,7 @@ function setDesign() {
                 h.classList.remove("paper")
                 h.classList.remove("rock")
                 h.className = "game-btn none"
-                h.firstChild.src = ""
+                h.firstChild.src = "./images/img-none.png"
             })
             break
     }
