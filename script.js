@@ -7,7 +7,7 @@ const thirdStep = document.querySelector("section.result-turn")
 const player = Array.from(document.querySelectorAll(".you-pick"))
 const house = Array.from(document.querySelectorAll(".house-pick"))
 
-var game = { step: 1, score: 0, picked: '', housePicked: '' }
+var game = { step: 1, score: 0, picked: '', housePicked: '', result: '' }
 
 var choices = ["", "scissor", "paper", "rock"]
 
@@ -135,6 +135,17 @@ function setDesign() {
             })
             break
     }
+
+    if (game.result == 'winner') {
+        player[1].classList.add("winner")
+        house[1].classList.remove("winner")
+    } else if (game.result == "lose") {
+        house[1].classList.add("winner")
+        player[1].classList.remove("winner")
+    } else {
+        player[1].classList.remove("winner")
+        house[1].classList.remove("winner")
+    }
 }
 
 function setWinner() {
@@ -146,8 +157,7 @@ function setWinner() {
     ) {
         thirdStep.querySelector('h3').innerHTML = "YOU WIN"
         game.score++
-        player[1].classList.add("winner")
-        house[1].classList.remove("winner")
+        game.result = 'winner'
     } else if (
         game.housePicked == "scissor" && game.picked == "paper"
         || game.housePicked == "paper" && game.picked == "rock"
@@ -155,12 +165,10 @@ function setWinner() {
     ) {
         thirdStep.querySelector('h3').innerHTML = "YOU LOSE"
         game.score--
-        house[1].classList.add("winner")
-        player[1].classList.remove("winner")
+        game.result = 'lose'
     } else if (game.picked == game.housePicked) {
         thirdStep.querySelector('h3').innerHTML = "DRAW"
-        player[1].classList.remove("winner")
-        house[1].classList.remove("winner")
+        game.result = 'draw'
     }
 
     setScore()
@@ -188,6 +196,7 @@ function playAgain() {
     game.step = 1
     game.picked = ''
     game.housePicked = ''
+    game.result = ''
 
     setDesign()
     saveGame()
@@ -195,7 +204,7 @@ function playAgain() {
 }
 
 function reset() {
-    game = { step: 1, score: 0, picked: '', housePicked: '' }
+    game = { step: 1, score: 0, picked: '', housePicked: '', result: '' }
     saveGame()
     setScore()
     setDesign()
@@ -212,5 +221,4 @@ function loadGame() {
 
 setDesign()
 setScore()
-setWinner()
 execute()
